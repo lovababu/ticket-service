@@ -23,14 +23,12 @@ public class TicketServiceConfig {
      public Balcony1 balcony1() {
         // value '10' should be read from external.
         List<Ticket> tickets = new ArrayList<Ticket>();
-        for (int i =0; i < 10; i++) {
+        for (int i =1; i <= 10; i++) {
             Ticket ticket = new Ticket();
-            ticket.setId(i);
             ticket.setSeatNo(i);
             ticket.setPrice(new BigDecimal(50));
             tickets.add(ticket);
         }
-        System.out.println("TicketServiceConfig.balcony1");
         return Balcony1.builder().withTickets(tickets).build();
     }
 
@@ -38,14 +36,12 @@ public class TicketServiceConfig {
     public Balcony2 balcony2() {
         // value '10' should be read from external.
         List<Ticket> tickets = new ArrayList<Ticket>();
-        for (int i =0; i < 10; i++) {
+        for (int i =1; i <= 10; i++) {
             Ticket ticket = new Ticket();
-            ticket.setId(i);
             ticket.setSeatNo(i);
             ticket.setPrice(new BigDecimal(40));
             tickets.add(ticket);
         }
-        System.out.println("TicketServiceConfig.balcony2");
         return Balcony2.builder().withTickets(tickets).build();
     }
 
@@ -53,14 +49,12 @@ public class TicketServiceConfig {
     public Main main() {
         // value '10' should be read from external.
         List<Ticket> tickets = new ArrayList<Ticket>();
-        for (int i =0; i < 10; i++) {
+        for (int i =1; i <= 10; i++) {
             Ticket ticket = new Ticket();
-            ticket.setId(i);
             ticket.setSeatNo(i);
             ticket.setPrice(new BigDecimal(75));
             tickets.add(ticket);
         }
-        System.out.println("TicketServiceConfig.main");;
         return Main.builder().withTickets(tickets).build();
     }
 
@@ -68,14 +62,12 @@ public class TicketServiceConfig {
     public Orchestra orchestra() {
         // value '10' should be read from external.
         List<Ticket> tickets = new ArrayList<Ticket>();
-        for (int i =0; i < 10; i++) {
+        for (int i =1; i <= 10; i++) {
             Ticket ticket = new Ticket();
-            ticket.setId(i);
             ticket.setSeatNo(i);
             ticket.setPrice(new BigDecimal(100));
             tickets.add(ticket);
         }
-        System.out.println("TicketServiceConfig.orchestra");
         return Orchestra.builder().withTickets(tickets).build();
     }
 }

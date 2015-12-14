@@ -1,6 +1,7 @@
 package org.ticketservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.ticketservice.api.TicketServiceResponse;
 import org.ticketservice.domain.BookTicket;
 import org.ticketservice.domain.Ticket;
 import org.ticketservice.service.TicketService;
@@ -31,7 +32,9 @@ public class TicketController {
         System.out.println("TicketController.checkAvailability");
         try {
             Map<String, List<Ticket>> availableTickets = ticketService.checkAvailability();
-            return Response.status(Response.Status.OK).entity(availableTickets).build();
+            TicketServiceResponse ticketServiceResponse = TicketServiceResponse.builder()
+                    .withStatusCode(Response.Status.OK.getStatusCode()).withTickets(availableTickets).build();
+            return Response.status(Response.Status.OK).entity(ticketServiceResponse).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -43,7 +46,9 @@ public class TicketController {
     public Response book(BookTicket bookTicket, @QueryParam("category") String category) {
         try {
             BookTicket bookTicket1 = ticketService.bookTicket(bookTicket, category);
-            return Response.status(Response.Status.ACCEPTED).entity(bookTicket).build();
+            TicketServiceResponse ticketServiceResponse = TicketServiceResponse.builder()
+                    .withStatusCode(Response.Status.ACCEPTED.getStatusCode()).withBookTicket(bookTicket).build();
+            return Response.status(Response.Status.ACCEPTED).entity(ticketServiceResponse).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -55,7 +60,9 @@ public class TicketController {
     public Response bookingStatus() {
         try {
             Map<String, List<Ticket>> currentStatus = ticketService.currentStatus();
-            return Response.status(Response.Status.OK).entity(currentStatus).build();
+            TicketServiceResponse ticketServiceResponse = TicketServiceResponse.builder()
+                    .withStatusCode(Response.Status.OK.getStatusCode()).withTickets(currentStatus).build();
+            return Response.status(Response.Status.OK).entity(ticketServiceResponse).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
