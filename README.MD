@@ -18,15 +18,15 @@
 ## API end point.
   checkAvailability: GET  http://localhost:8080/ticket/availability      
   BookTicket:        POST http://localhost:8080/ticket/book/?category=Balcony1      
-                     RequestBody: {      
-                                     "name":"aaa",    
-                                     "contact":"aaa",    
-                                     "tickets":[    
-                                                 {    
-                                                   "seatNo":"5"    
-                                                 }    
-                                               ]    
-                                  }    
+                     RequestBody:   {      
+                                        "name":"aaa",    
+                                        "contact":"aaa",    
+                                        "tickets":[    
+                                                    {    
+                                                     "seatNo":"5"    
+                                                    }    
+                                                  ]    
+                                     }    
  CurrentBookingStatus: GET http://localhost:8080/ticket/status    
  
  For all above APIs Content-Typ: application/json.    
