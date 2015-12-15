@@ -15,6 +15,7 @@ import org.ticketservice.api.TicketServiceResponse;
 import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TicketServiceApplication.class)
@@ -45,18 +46,18 @@ public class TicketServiceApplicationTests {
     public void testFindAndHoldSeat() {
         TicketServiceResponse response = restTemplate.postForObject(baseURL + "/hold", jSeatHold("mkambam@gmail.com", 4, 1, 3, null), TicketServiceResponse.class);
         assertEquals(response.getStatusCode(), Response.Status.ACCEPTED.getStatusCode());
-
+        assertNotNull(response.getJSeatHold());
         //check the availability on level1, it should be 6 since 4seats has been hold.
         response = restTemplate.getForObject(baseURL + "/level/1/available", TicketServiceResponse.class);
         assertEquals(response.getStatusCode(), Response.Status.OK.getStatusCode());
         assertEquals(6, response.getAvailableSeats());
     }
 
-    /*@Test
+    @Test
     public void testReserve() {
         Integer holdId;
         TicketServiceResponse response = restTemplate.postForObject(baseURL + "/hold", jSeatHold("mkambam@gmail.com", 4, 2, 3, null), TicketServiceResponse.class);
-        assertEquals(response.getStatusCode(), Response.Status.OK.getStatusCode());
+        assertEquals(response.getStatusCode(), Response.Status.ACCEPTED.getStatusCode());
         assertNotNull(response.getJSeatHold());
 
         holdId = response.getJSeatHold().getId();
@@ -69,7 +70,7 @@ public class TicketServiceApplicationTests {
         response = restTemplate.postForObject(baseURL + "/reserve", jSeatHold("mkambam@gmail.com", null, null, null, holdId), TicketServiceResponse.class);
         assertEquals(response.getStatusCode(), Response.Status.OK.getStatusCode());
         assertEquals(response.getMessage(), "Your tickets has been confirmed.");
-    }*/
+    }
 
     private JSeatHold jSeatHold(String email, Integer numSeats, Integer minLevel, Integer maxLevel, Integer id) {
         JSeatHold jSeatHold = new JSeatHold();

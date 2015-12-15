@@ -2,7 +2,7 @@ package org.ticketservice.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.ticketservice.domain.Ticket;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by Durga on 12/14/2015.
  */
 
-@Getter
+@Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)

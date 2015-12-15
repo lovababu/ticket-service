@@ -7,9 +7,9 @@ import org.ticketservice.domain.SeatHold;
 import org.ticketservice.domain.Ticket;
 import org.ticketservice.service.impl.TicketServiceImpl;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -60,6 +60,7 @@ public class TicketController {
 
     @POST
     @Path(value = "hold")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response findAndHold(JSeatHold jSeatHold) {
         try {
             SeatHold seatHold = ticketService.findAndHoldSeats(jSeatHold.getNumSeats(),
@@ -74,8 +75,9 @@ public class TicketController {
         }
     }
 
-    @PUT
+    @POST
     @Path(value = "reserve")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response reserveSeat(JSeatHold jSeatHold) {
         try {
             String message = ticketService.reserveSeats(jSeatHold.getId(), jSeatHold.getEmail());
