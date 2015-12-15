@@ -9,9 +9,8 @@ import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
+import org.ticketservice.api.JSeatHold;
 import org.ticketservice.api.TicketServiceResponse;
-import org.ticketservice.domain.BookTicket;
-import org.ticketservice.domain.Ticket;
 
 import javax.ws.rs.core.Response;
 
@@ -37,34 +36,13 @@ public class TicketServiceApplicationTests {
 
 	@Test
 	public void checkAvailability() {
-		TicketServiceResponse response = restTemplate.getForObject(baseURL+"/availability", TicketServiceResponse.class);
+		TicketServiceResponse response = restTemplate.getForObject(baseURL+"/level/1/available", TicketServiceResponse.class);
 		assertEquals(response.getStatusCode(), Response.Status.OK.getStatusCode());
-		assertEquals(10, response.getTickets().get("Balcony1").size());
-		assertEquals(10, response.getTickets().get("Balcony2").size());
-		assertEquals(10, response.getTickets().get("Main").size());
-		assertEquals(10, response.getTickets().get("Orchestra").size());
+		assertEquals(10, response.getAvailableSeats());
 	}
 
-	@Test
-	public void bookAndCheckAvailability() {
-		TicketServiceResponse response = restTemplate.postForObject(baseURL + "/book?category=Balcony1", bookTicket("Mahesh k", "xyz", 5) , TicketServiceResponse.class);
-		assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatusCode());
+	private JSeatHold jSeatHold(String email, int numSeats, int minLevel, int maxLevel) {
 
-		response = restTemplate.getForObject(baseURL+"/availability", TicketServiceResponse.class);
-		assertEquals(response.getStatusCode(), Response.Status.OK.getStatusCode());
-		assertEquals(9, response.getTickets().get("Balcony1").size());
-		assertEquals(10, response.getTickets().get("Balcony2").size());
-		assertEquals(10, response.getTickets().get("Main").size());
-		assertEquals(10, response.getTickets().get("Orchestra").size());
-	}
-
-	private BookTicket bookTicket(String name, String mobile, int seatNo) {
-        BookTicket bookTicket = new BookTicket();
-        bookTicket.setName(name);
-        bookTicket.setContact(mobile);
-        Ticket ticket = new Ticket();
-        ticket.setSeatNo(seatNo);
-        bookTicket.addTicket(ticket);
-        return bookTicket;
+        return null;
     }
 }

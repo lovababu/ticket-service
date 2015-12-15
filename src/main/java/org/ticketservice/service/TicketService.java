@@ -1,105 +1,45 @@
 package org.ticketservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.ticketservice.domain.BookTicket;
+import org.ticketservice.domain.SeatHold;
 import org.ticketservice.domain.Ticket;
-import org.ticketservice.vo.Balcony1;
-import org.ticketservice.vo.Balcony2;
-import org.ticketservice.vo.Main;
-import org.ticketservice.vo.Orchestra;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
- * Created by Durga on 12/14/2015.
+ * Created by Durga on 12/15/2015.
  */
+public interface TicketService {
 
-@Service
-public class TicketService {
+    Map<String, List<Ticket>> currentStatus();
 
-    @Autowired
-    private Balcony1 balcony1;
-
-    @Autowired
-    private Balcony2 balcony2;
-
-    @Autowired
-    private Main main;
-
-    @Autowired
-    private Orchestra orchestra;
-
-    public Map<String, List<Ticket>> checkAvailability() {
-        Map<String, List<Ticket>> availableTickets = new HashMap<String, List<Ticket>>();
-        availableTickets.put("Balcony1", balcony1.getTickets());
-        availableTickets.put("Balcony2", balcony2.getTickets());
-        availableTickets.put("Main", main.getTickets());
-        availableTickets.put("Orchestra", orchestra.getTickets());
-        return availableTickets;
-    }
-
-    public BookTicket bookTicket(BookTicket bookTicket, String category){
-        switch (category) {
-            case "Balcony1" : {
-                for (Ticket ticket: bookTicket.getTickets()) {
-                    for (Ticket t: balcony1.getTickets()) {
-                        if (ticket.getSeatNo() == t.getSeatNo() && !t.isSold()) {
-                            t.setSold(true);
-                        }
-                    }
-                }
-                break;
-            }
-
-            case "Balcony2" : {
-                for (Ticket ticket: bookTicket.getTickets()) {
-                    for (Ticket t: balcony2.getTickets()) {
-                        if (ticket.getSeatNo() == t.getSeatNo() && !t.isSold()) {
-                            t.setSold(true);
-                        }
-                    }
-                }
-                break;
-            }
-
-            case "Main" : {
-                for (Ticket ticket: bookTicket.getTickets()) {
-                    for (Ticket t: main.getTickets()) {
-                        if (ticket.getSeatNo() == t.getSeatNo() && !t.isSold()) {
-                            t.setSold(true);
-                        }
-                    }
-                }
-                break;
-            }
-
-            case "Orchestra" : {
-                for (Ticket ticket: bookTicket.getTickets()) {
-                    for (Ticket t: orchestra.getTickets()) {
-                        if (ticket.getSeatNo() == t.getSeatNo() && !t.isSold()) {
-                            t.setSold(true);
-                        }
-                    }
-                }
-                break;
-            }
-
-            default: {
-                System.out.println("Invalid Booking option.");
-            }
-        }
-        return null;
-    }
-
-    public Map<String, List<Ticket>> currentStatus() {
-        Map<String, List<Ticket>> currentStatus = new HashMap<String, List<Ticket>>();
-        currentStatus.put("Balcony1", balcony1.getAllTickets());
-        currentStatus.put("Balcony2", balcony2.getAllTickets());
-        currentStatus.put("Main", main.getAllTickets());
-        currentStatus.put("Orchestra", orchestra.getAllTickets());
-        return currentStatus;
-    }
+    /**
+     * The number of seats in the requested level that are neither held nor reserved
+     *
+     * @param venueLevel a numeric venue level identifier to limit the search
+     * @return the number of tickets available on the provided level
+     */
+    int numSeatsAvailable(Optional<Integer> venueLevel);
+    /**
+     * Find and hold the best available seats for a customer
+     *
+     * @param numSeats the number of seats to find and hold
+     * @param minLevel the minimum venue level
+     * @param maxLevel the maximum venue level
+     * @param customerEmail unique identifier for the customer
+     * @return a SeatHold object identifying the specific seats and related
+    information
+     */
+    SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel,
+                              Optional<Integer> maxLevel, String customerEmail);
+    /**
+     * Commit seats held for a specific customer
+     *
+     * @param seatHoldId the seat hold identifier
+     * @param customerEmail the email address of the customer to which the seat hold
+    is assigned
+     * @return a reservation confirmation code
+     */
+    String reserveSeats(int seatHoldId, String customerEmail);
 }
