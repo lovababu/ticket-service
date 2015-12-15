@@ -80,8 +80,8 @@ public class TicketController {
         try {
             String message = ticketService.reserveSeats(jSeatHold.getId(), jSeatHold.getEmail());
             TicketServiceResponse response = TicketServiceResponse.builder()
-                    .withStatusCode(Response.Status.ACCEPTED.getStatusCode()).withMessage(message).build();
-            return Response.status(Response.Status.ACCEPTED).entity(response).build();
+                    .withStatusCode(Response.Status.OK.getStatusCode()).withMessage(message).build();
+            return Response.status(Response.Status.OK).entity(response).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

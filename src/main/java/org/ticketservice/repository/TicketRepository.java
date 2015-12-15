@@ -26,7 +26,7 @@ public class TicketRepository {
 
     private static Map<Integer, List<Ticket>> TICKET_DATA;
     private static Map<String, SeatHold> SEAT_HOLDER;
-    private Integer holdId = new Random().nextInt();
+    private Integer holdId = new Random().nextInt(999999);
 
     @PostConstruct
     public void init() {
